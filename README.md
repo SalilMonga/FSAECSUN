@@ -1,53 +1,33 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-P4 | ESP32-S2 | ESP32-S3 | Linux |
-| ----------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | -------- | -------- | -------- | ----- |
+# Test to Read CAN Bus Data
 
-# Hello World Example
+Starts a FreeRTOS task to read CAN bus data.
 
-Starts a FreeRTOS task to print "Hello World".
+## How to Use
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+If you have never worked with ESP-IDF, please follow the [Getting Started with ESP-IDF Guide](https://docs.espressif.com/projects/esp-idf/en/v4.2.3/esp32/get-started/vscode-setup.html).
 
-## How to use example
+### Otherwise:
 
-Follow detailed instructions provided specifically for this example.
+1. **Set GPIO Pins:**
 
-Select the instructions depending on Espressif chip installed on your development board:
+   - Ensure the GPIO pins in the `twai_general_config_t` configuration are set to the appropriate pins:
+     ```c
+     g_config = TWAI_GENERAL_CONFIG_DEFAULT(GPIO_NUM_22, GPIO_NUM_23, TWAI_MODE_NORMAL);
+     ```
 
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
+2. **Set the Bitrate:**
 
+   - Verify the bitrate is correctly configured based on your CAN bus system:
+     ```c
+     TWAI_TIMING_CONFIG_1MBITS();
+     ```
 
-## Example folder contents
+3. **Update the Identifier:**
 
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
+   - Adjust the identifier to match the data you need:
+     ```c
+     .rx_message.identifier == 0x640;
+     ```
 
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both).
-
-Below is short explanation of remaining files in the project folder.
-
-```
-├── CMakeLists.txt
-├── pytest_hello_world.py      Python script used for automated testing
-├── main
-│   ├── CMakeLists.txt
-│   └── hello_world_main.c
-└── README.md                  This is the file you are currently reading
-```
-
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
-
-## Troubleshooting
-
-* Program upload failure
-
-    * Hardware connection is not correct: run `idf.py -p PORT monitor`, and reboot your board to see if there are any output logs.
-    * The baud rate for downloading is too high: lower your baud rate in the `menuconfig` menu, and try again.
-
-## Technical support and feedback
-
-Please use the following feedback channels:
-
-* For technical queries, go to the [esp32.com](https://esp32.com/) forum
-* For a feature request or bug report, create a [GitHub issue](https://github.com/espressif/esp-idf/issues)
-
-We will get back to you as soon as possible.
+4. **Build and Flash the Code:**
+   - Use the ESP-IDF Explorer to build the project and flash the code to the ESP device.
